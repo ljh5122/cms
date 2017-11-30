@@ -1,5 +1,7 @@
 <?php
 
+namespace app\controller;
+
 /**
 * 控制器
 */
@@ -17,6 +19,7 @@ class Index{
 	}
 
 	public function index(){
-		phpinfo();
+		$user_model = \app\model\User::get_instance();
+		var_dump($user_model->getAll());
 	}
 }

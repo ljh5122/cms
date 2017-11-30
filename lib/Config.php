@@ -3,7 +3,9 @@
 /**
 * 应用引导类
 */
-class Init {
+class Config {
+	private static $_map = array(); //注册树
+
 	private function __construct(){}
 
 	/**

@@ -1,44 +1,36 @@
 <?php
 
+namespace lib;
+
 /**
-* 应用引导类
+* 配置管理类
 */
 class Config {
-	private static $_map = array(); //注册树
+	private static $config = array();
 
 	private function __construct(){}
 
 	/**
-	 * [start 应用初始化]
-	 * @return [type] [无]
-	 */
-	public static function start(){
-		header('content-type:text/html; charset=utf-8');
-		spl_autoload_register('self::autoload');
-		self::run();
-	}
-
-	/**
-	 * [autoload 自动加载类]
-	 * @param  string $class [类名]
+	 * [load 加载所有配置文件信息]
+	 * @param  string $path [配置文件目录]
 	 * @return [type]        [无]
 	 */
-	private static function autoload($class = 'Index'){
-		$class_path = $class.'.php';
-		if (is_file($class_path)) {
-			require_once $class_path;
+	public  static function load($path = ''){
+		$config_file = scandir($path);
+		foreach ($config_file as $file) {
+			if ($file != '.' && $file != '..') {
+				$config = require_once $path.$file;
+				self::$config = array_merge(self::$config, $config);
+			}
 		}
 	}
 
 	/**
-	 * [run 运行应用]
-	 * @return [type] [无]
+	 * [get 获取配置信息]
+	 * @param  string $key [配置项]
+	 * @return [type]      [配置项的值]
 	 */
-	private static function run(){
-		$_SERVER['PATH_INFO'] = !empty($_SERVER['PATH_INFO']) ?: 'Index/index';
-		$path_info 	= explode('/', $_SERVER['PATH_INFO']);
-		$action     = empty($path_info[2]) ? 'index' : $path_info[2];
-		$controller = '\\app\\controller\\'.$path_info[1];
-		$controller::get_instance()->$action();
+	public static function get($key = '') {
+		return $key ? self::$config[$key] : self::$config;
 	}
 }

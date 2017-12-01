@@ -1,7 +1,6 @@
 <?php
 
 namespace lib;
-use \lib\Config;
 use \lib\Db;
 
 /**
@@ -13,11 +12,7 @@ class Model {
 	protected $model = null;
 
 	public function __construct($model_str = ''){
-		$db_host = Config::get('db_host');
-		$db_name = Config::get('db_name');
-		$db_user = Config::get('db_user');
-		$db_password = Config::get('db_password');
-		$db_port = Config::get('db_port');
-		$this->db = Db::connect($db_host, $db_port, $db_user, $db_password, $db_name);
+		//$this->db = new \lib\Db($db_host, $db_port, $db_user, $db_password, $db_name);
+		$this->db = Db::connect();
 	}
 }

@@ -11,9 +11,6 @@ class Init {
 	 * @return [type] [无]
 	 */
 	public static function start(){
-		//设置文件头信息
-		header('content-type:text/html; charset=utf-8');
-
 		//设置自动加载方法
 		spl_autoload_register('self::autoload');
 
@@ -43,11 +40,16 @@ class Init {
 	 * @return [type] [无]
 	 */
 	private static function run(){
+		//获取PATH_INFO参数
 		$_SERVER['PATH_INFO'] = !empty($_SERVER['PATH_INFO']) ?: 'Index/index';
 		$path_info = explode('/', $_SERVER['PATH_INFO']);
 		$action = empty($path_info[2]) ? 'index' : $path_info[2];
+
+		define('CONTROLLER_NAME', $path_info[1]);
+		define('ACTION_NAME', $action);
+
+		//运行控制器方法
 		$controller = '\\app\\controller\\'.$path_info[1];
-		//$controller::get_instance()->$action();
 		$controller_obj = new $controller();
 		$controller_obj->$action();
 	}

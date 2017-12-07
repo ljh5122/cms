@@ -10,4 +10,5 @@ return array(
 	'db_password' => '',
 	'db_charset'  => 'utf8',
 	'db_port'     => '3066',
+	'db_prefix'     => 'sy_',
 	);

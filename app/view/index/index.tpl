@@ -6,6 +6,10 @@
 </head>
 <body>
 	<h1>首页模板</h1>
-	<h2><?php var_dump($user); ?></h2>
+	<?php
+		foreach($admin as $key => $val){
+			echo '<h2>'.$val['name'].'</h2>';
+		}
+	?>
 </body>
 </html>

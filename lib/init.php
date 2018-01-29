@@ -43,16 +43,27 @@ class Init {
 	 * @return [type] [无]
 	 */
 	private static function run(){
-		//获取PATH_INFO参数
-		$_SERVER['PATH_INFO'] = !empty($_SERVER['PATH_INFO']) ?: 'Index/index';
-		$path_info = explode('/', $_SERVER['PATH_INFO']);
-		$action = empty($path_info[2]) ? 'index' : $path_info[2];
+		if (\lib\Config::get('path_info') && empty($_GET['c'])) {
+			$path_info = empty($_SERVER['REDIRECT_PATH_INFO']) ? 'Index/index' : $_SERVER['REDIRECT_PATH_INFO'];
+			$request = explode('/', $path_info);
+			$item = count($request);
+			for ($i=2; $i < $item; $i++) { 
+				$_GET[$request[$i]] = $request[++$i];
+			}
 
-		define('CONTROLLER_NAME', $path_info[1]);
+			$_GET['c'] = $request[0];
+			$_GET['a'] = $request[1];
+			unset($request);
+		}
+
+		$controller = $_GET['c'] ?: 'Index';
+		$action = $_GET['a'] ?: 'Index';
+		
+		define('CONTROLLER_NAME', $controller);
 		define('ACTION_NAME', $action);
 
 		//运行控制器方法
-		$controller = '\\app\\controller\\'.$path_info[1];
+		$controller = '\\app\\controller\\'.$controller;
 		$controller_obj = new $controller();
 		$controller_obj->$action();
 	}

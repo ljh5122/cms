@@ -17,6 +17,9 @@ class Init {
 		//设置错误级别
 		//error_reporting('E_ERROR');
 
+		//设置时区
+		date_default_timezone_set('PRC');
+
 		// 加载应用配置
 		\lib\Config::load(APP_PATH.'/config/');
 

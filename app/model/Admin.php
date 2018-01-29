@@ -7,12 +7,9 @@ namespace app\model;
 */
 class Admin extends \lib\Model{
 	protected $table_name = 'admin';
-
-	public function table_name(){
-		return $this->table_prefix.$this->table_name;
-	}
-
+	
 	public function get_admin(){
-		return $this->db->query('select * from sy_admin');
+		$sql = 'select * from '.$this->table_name;
+		return $this->db->query($sql);
 	}
 }

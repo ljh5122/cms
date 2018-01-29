@@ -24,5 +24,6 @@ class Model {
 
 		$this->db = new Db($host, $port, $user, $password, $db_name, $charset);
 		$this->table_prefix = Config::get('db_prefix');
+		$this->table_name = $this->table_prefix.$this->table_name;
 	}
 }
